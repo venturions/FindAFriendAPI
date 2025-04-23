@@ -15,15 +15,15 @@ datasource db {
 }
 
 model Org {
-  id        String   @id @default(uuid())
-  name      String // Nome do responsável pela organização
-  email     String   @unique
-  password  String // Senha para login
-  address   String // Endereço completo
-  whatsapp  String // Número de WhatsApp
-  cep       String // CEP da organização
-  pets      Pet[] // Relacionamento com os pets cadastrados
-  createdAt DateTime @default(now())
+  id            String   @id @default(uuid())
+  name          String // Nome do responsável pela organização
+  email         String   @unique
+  password_hash String // Hash da senha para login
+  address       String // Endereço completo
+  whatsapp      String // Número de WhatsApp
+  cep           String // CEP da organização
+  pets          Pet[] // Relacionamento com os pets cadastrados
+  createdAt     DateTime @default(now())
 }
 
 model Pet {

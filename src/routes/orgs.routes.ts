@@ -1,10 +1,6 @@
 import { FastifyInstance } from 'fastify'
-import { makeCreateOrgController } from '@/modules/orgs/factories/makeCreateOrgController'
+import { create } from '@/modules/orgs/controller/CreateOrgController'
 
 export async function orgRoutes(app: FastifyInstance) {
-  app.post('/orgs', async (request, reply) => {
-    const createOrgController = makeCreateOrgController()
-
-    await createOrgController.handle(request, reply)
-  })
+  app.post('/orgs', create)
 }

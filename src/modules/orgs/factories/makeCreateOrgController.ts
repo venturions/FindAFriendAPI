@@ -1,11 +1,9 @@
 import { CreateOrgService } from '../services/CreateOrgService'
-import { CreateOrgController } from '../controller/CreateOrgController'
 import { PrismaOrgRepository } from '../repositories/OrgRepository'
 
-export function makeCreateOrgController(): CreateOrgController {
+export function makeCreateOrgService() {
   const orgRepository = new PrismaOrgRepository()
   const createOrgService = new CreateOrgService(orgRepository)
-  const createOrgController = new CreateOrgController(createOrgService)
 
-  return createOrgController
+  return createOrgService
 }
