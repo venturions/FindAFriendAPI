@@ -13,3 +13,32 @@ datasource db {
   provider = "postgresql"
   url      = env("DATABASE_URL")
 }
+
+model Org {
+  id        String   @id @default(uuid())
+  name      String // Nome do responsável pela organização
+  email     String   @unique
+  password  String // Senha para login
+  address   String // Endereço completo
+  whatsapp  String // Número de WhatsApp
+  cep       String // CEP da organização
+  pets      Pet[] // Relacionamento com os pets cadastrados
+  createdAt DateTime @default(now())
+}
+
+model Pet {
+  id                   String   @id @default(uuid())
+  name                 String // Nome do pet
+  age                  String // Idade (ex.: Filhote, Adulto)
+  size                 String // Porte (ex.: Pequeno, Médio, Grande)
+  energyLevel          String // Nível de energia (ex.: Baixa, Média, Alta)
+  independenceLevel    String // Nível de independência (ex.: Baixo, Médio, Alto)
+  environment          String // Ambiente ideal (ex.: Ambiente amplo)
+  description          String // Descrição do pet
+  photos               String[] // URLs das fotos do pet
+  adoptionRequirements String[] // Requisitos para adoção
+  city                 String // Cidade onde o pet está localizado
+  org                  Org      @relation(fields: [orgId], references: [id])
+  orgId                String // Relacionamento com a organização
+  createdAt            DateTime @default(now())
+}
