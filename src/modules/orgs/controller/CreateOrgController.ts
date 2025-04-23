@@ -1,12 +1,12 @@
 import { FastifyReply, FastifyRequest } from 'fastify'
 import { z } from 'zod'
 import { CreateOrgService } from '../services/CreateOrgService'
+import { OrganizationAlreadyExistsError } from '../errors/OrganizationAlreadyExistsError'
 
 export class CreateOrgController {
   constructor(private createOrgService: CreateOrgService) {}
 
   async handle(request: FastifyRequest, reply: FastifyReply): Promise<void> {
-    // Definindo o esquema de validação com zod
     const createOrgSchema = z.object({
       name: z.string().min(1, 'Name is required'),
       email: z.string().email('Invalid email format'),
@@ -19,15 +19,12 @@ export class CreateOrgController {
     })
 
     try {
-      // Validando os dados do body
       const data = createOrgSchema.parse(request.body)
 
-      // Executando o serviço
       await this.createOrgService.execute(data)
 
       reply.status(201).send()
     } catch (error) {
-      // Retornando erro de validação
       if (error instanceof z.ZodError) {
         return reply.status(400).send({
           message: 'Validation error',
@@ -35,7 +32,12 @@ export class CreateOrgController {
         })
       }
 
-      // Outros erros
+      if (error instanceof OrganizationAlreadyExistsError) {
+        return reply.status(409).send({
+          message: error.message,
+        })
+      }
+
       throw error
     }
   }
