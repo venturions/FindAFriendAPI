@@ -1,5 +1,8 @@
 import { app } from './app'
 import { env } from './env'
+import { orgRoutes } from './orgs.routes'
+
+app.register(orgRoutes)
 
 app
   .listen({
