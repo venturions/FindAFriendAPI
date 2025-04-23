@@ -15,3 +15,40 @@
 - O usuário que quer adotar, entrará em contato com a ORG via WhatsApp
 - Todos os filtros, além da cidade, são opcionais
 - Para uma ORG acessar a aplicação como admin, ela precisa estar logada
+
+
+Estrutura do projeto
+
+src/
+├── modules/
+│   ├── orgs/
+│   │   ├── dtos/
+│   │   ├── entities/
+│   │   ├── repositories/
+│   │   │   ├── in-memory/
+│   │   │   └── prisma/
+│   │   ├── services/
+│   │   │   ├── createOrg/
+│   │   │   ├── authenticateOrg/
+│   │   │   └── ...
+│   │   └── tests/
+│   └── pets/
+│       ├── dtos/
+│       ├── entities/
+│       ├── repositories/
+│       │   ├── in-memory/
+│       │   └── prisma/
+│       ├── services/
+│       │   ├── createPet/
+│       │   ├── listPets/
+│       │   └── ...
+│       └── tests/
+├── shared/
+│   ├── errors/
+│   ├── providers/
+│   ├── utils/
+│   └── tests/
+├── prisma/
+│   ├── schema.prisma
+│   └── migrations/
+└── server.ts
