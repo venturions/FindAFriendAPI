@@ -1,4 +1,5 @@
 import { OrgRepository } from '@/modules/orgs/repositories/OrgRepository'
+import { InvalidCredentialsError } from '@/shared/errors/InvalidCredentialsErrors'
 import bcrypt from 'bcryptjs'
 import { Org } from 'generated/prisma'
 
@@ -20,7 +21,7 @@ export class AuthenticateOrgService {
     const org = await this.orgRepository.findByEmail(data.email)
 
     if (!org) {
-      throw new Error('Invalid email or password')
+      throw new InvalidCredentialsError()
     }
 
     const isPasswordValid = await bcrypt.compare(
@@ -29,7 +30,7 @@ export class AuthenticateOrgService {
     )
 
     if (!isPasswordValid) {
-      throw new Error('Invalid email or password')
+      throw new InvalidCredentialsError()
     }
 
     return { org }

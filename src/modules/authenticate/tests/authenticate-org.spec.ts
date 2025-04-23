@@ -2,6 +2,7 @@ import { describe, it, expect, beforeEach } from 'vitest'
 import { InMemoryOrgRepository } from '@/modules/orgs/repositories/InMemoryOrgRepository'
 import { AuthenticateOrgService } from '../services/authenticateService'
 import { CreateOrgService } from '@/modules/orgs/services/CreateOrgService'
+import { InvalidCredentialsError } from '@/shared/errors/InvalidCredentialsErrors'
 
 describe('Authenticate', () => {
   let inMemoryOrgRepository: InMemoryOrgRepository
@@ -40,7 +41,7 @@ describe('Authenticate', () => {
         email: 'invalid@example.com',
         password: '123456',
       }),
-    ).rejects.toThrowError('Invalid email or password')
+    ).rejects.toBeInstanceOf(InvalidCredentialsError)
   })
 
   it('should not authenticate an organization with an invalid password', async () => {
@@ -62,6 +63,6 @@ describe('Authenticate', () => {
         email: orgData.email,
         password: 'wrongpassword',
       }),
-    ).rejects.toThrowError('Invalid email or password')
+    ).rejects.toBeInstanceOf(InvalidCredentialsError)
   })
 })

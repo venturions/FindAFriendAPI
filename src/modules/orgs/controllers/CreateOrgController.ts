@@ -22,13 +22,6 @@ export async function create(request: FastifyRequest, reply: FastifyReply) {
 
     reply.status(201).send()
   } catch (error) {
-    if (error instanceof z.ZodError) {
-      return reply.status(400).send({
-        message: 'Validation error',
-        issues: error.errors,
-      })
-    }
-
     if (error instanceof OrganizationAlreadyExistsError) {
       return reply.status(409).send({
         message: error.message,
