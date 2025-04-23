@@ -1,6 +1,6 @@
-import { app } from '@/app'
 import { OrgRepository } from '@/modules/orgs/repositories/OrgRepository'
 import bcrypt from 'bcryptjs'
+import { Org } from 'generated/prisma'
 
 interface AuthenticateOrgRequest {
   email: string
@@ -8,7 +8,7 @@ interface AuthenticateOrgRequest {
 }
 
 interface AuthenticateOrgResponse {
-  token: string
+  org: Org
 }
 
 export class AuthenticateOrgService {
@@ -32,12 +32,6 @@ export class AuthenticateOrgService {
       throw new Error('Invalid email or password')
     }
 
-    // Gerar o token JWT
-    const token = app.jwt.sign(
-      { orgId: org.id },
-      { expiresIn: '1h' }, // Token expira em 1 hora
-    )
-
-    return { token }
+    return { org }
   }
 }

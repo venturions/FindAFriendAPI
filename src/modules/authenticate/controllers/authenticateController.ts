@@ -16,7 +16,13 @@ export async function authenticate(
 
     const authenticateOrgService = makeAuthenticateService()
 
-    const { token } = await authenticateOrgService.execute({ email, password })
+    const { org } = await authenticateOrgService.execute({ email, password })
+
+    const token = await reply.jwtSign({
+      sign: {
+        sub: org.id,
+      },
+    })
 
     return reply.status(200).send({ token })
   } catch (error) {
