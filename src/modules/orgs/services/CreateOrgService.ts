@@ -1,6 +1,7 @@
 import { OrgRepository } from '../repositories/OrgRepository'
 import { OrganizationAlreadyExistsError } from '../errors/OrganizationAlreadyExistsError'
 import bcrypt from 'bcryptjs'
+import { Org } from 'generated/prisma'
 
 interface CreateOrgRequest {
   name: string
@@ -10,11 +11,14 @@ interface CreateOrgRequest {
   whatsapp: string
   cep: string
 }
+interface CreateOrgResponse {
+  org: Org
+}
 
 export class CreateOrgService {
   constructor(private orgRepository: OrgRepository) {}
 
-  async execute(data: CreateOrgRequest): Promise<void> {
+  async execute(data: CreateOrgRequest): Promise<CreateOrgResponse> {
     const orgExists = await this.orgRepository.findByEmail(data.email)
 
     if (orgExists) {
@@ -23,7 +27,7 @@ export class CreateOrgService {
 
     const passwordHash = await bcrypt.hash(data.password, 6)
 
-    await this.orgRepository.create({
+    const org = await this.orgRepository.create({
       name: data.name,
       email: data.email,
       address: data.address,
@@ -31,5 +35,7 @@ export class CreateOrgService {
       cep: data.cep,
       password_hash: passwordHash,
     })
+
+    return { org }
   }
 }
