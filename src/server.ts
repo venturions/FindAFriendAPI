@@ -1,8 +1,10 @@
 import { app } from './app'
 import { env } from './env'
+import { authenticateRoutes } from './routes/authenticate.routes'
 import { orgRoutes } from './routes/orgs.routes'
 
 app.register(orgRoutes)
+app.register(authenticateRoutes)
 
 app
   .listen({

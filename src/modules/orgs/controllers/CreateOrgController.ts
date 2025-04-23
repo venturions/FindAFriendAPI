@@ -1,11 +1,9 @@
 import { FastifyReply, FastifyRequest } from 'fastify'
 import { z } from 'zod'
 import { OrganizationAlreadyExistsError } from '../errors/OrganizationAlreadyExistsError'
-import { makeCreateOrgService } from '../factories/makeCreateOrgController'
+import { makeCreateOrgService } from '../factories/makeCreateOrgService'
 
 export async function create(request: FastifyRequest, reply: FastifyReply) {
-  const createOrgService = makeCreateOrgService()
-
   const createOrgSchema = z.object({
     name: z.string().min(1, 'Name is required'),
     email: z.string().email('Invalid email format'),
@@ -17,6 +15,8 @@ export async function create(request: FastifyRequest, reply: FastifyReply) {
 
   try {
     const data = createOrgSchema.parse(request.body)
+
+    const createOrgService = makeCreateOrgService()
 
     await createOrgService.execute(data)
 
