@@ -1,6 +1,6 @@
 import { OrgRepository } from '@/modules/orgs/repositories/OrgRepository'
 import { Pet } from 'generated/prisma'
-import { PetRepository } from '../PetsRepository'
+import { PetRepository } from '../repositories/PetsRepository'
 import { OrganizationNotFoundError } from '@/shared/errors/OrganizationNotFoundError'
 
 interface CreatePetRequest {
