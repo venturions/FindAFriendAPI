@@ -1,9 +1,7 @@
 import { FastifyReply, FastifyRequest } from 'fastify'
 import { z } from 'zod'
-import { PrismaOrgRepository } from '@/modules/orgs/repositories/prisma/PrismaOrgRepository'
-import { PrismaPetRepository } from '../repositories/prisma/PrismaPetsRepository'
-import { CreatePetService } from '../repositories/services/CreatePetService'
 import { OrganizationNotFoundError } from '@/shared/errors/OrganizationNotFoundError'
+import { makeCreatePetService } from '../factories/makeCreatePetService'
 
 export async function createPet(request: FastifyRequest, reply: FastifyReply) {
   const createPetSchema = z.object({
@@ -24,9 +22,7 @@ export async function createPet(request: FastifyRequest, reply: FastifyReply) {
 
     const orgId = request.user.sub
 
-    const petRepository = new PrismaPetRepository()
-    const orgRepository = new PrismaOrgRepository()
-    const createPetService = new CreatePetService(petRepository, orgRepository)
+    const createPetService = makeCreatePetService()
 
     const { pet } = await createPetService.execute({
       ...data,
