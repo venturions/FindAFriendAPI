@@ -116,6 +116,7 @@ cd FindAFriendAPI
 Instale as dependências:
 ```bash
 npm install
+```
 
 Configure as variáveis de ambiente: Crie um arquivo .env com as seguintes variáveis:
 ```bash
