@@ -43,4 +43,24 @@ export class InMemoryPetRepository implements PetRepository {
       (pet) => pet.city.toLowerCase() === city.toLowerCase(),
     )
   }
+
+  async findByFilters(filters: {
+    city: string
+    age?: string
+    energyLevel?: string
+    size?: string
+    independenceLevel?: string
+  }): Promise<Pet[]> {
+    const { city, age, energyLevel, size, independenceLevel } = filters
+
+    return this.pets.filter((pet) => {
+      return (
+        pet.city.toLowerCase() === city.toLowerCase() &&
+        (!age || pet.age === age) &&
+        (!energyLevel || pet.energyLevel === energyLevel) &&
+        (!size || pet.size === size) &&
+        (!independenceLevel || pet.independenceLevel === independenceLevel)
+      )
+    })
+  }
 }

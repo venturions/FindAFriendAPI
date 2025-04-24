@@ -26,4 +26,26 @@ export class PrismaPetRepository implements PetRepository {
 
     return pets
   }
+
+  async findByFilters(filters: {
+    city: string
+    age?: string
+    energyLevel?: string
+    size?: string
+    independenceLevel?: string
+  }): Promise<Pet[]> {
+    const { city, age, energyLevel, size, independenceLevel } = filters
+
+    const pets = await prisma.pet.findMany({
+      where: {
+        city,
+        ...(age && { age }),
+        ...(energyLevel && { energyLevel }),
+        ...(size && { size }),
+        ...(independenceLevel && { independenceLevel }),
+      },
+    })
+
+    return pets
+  }
 }

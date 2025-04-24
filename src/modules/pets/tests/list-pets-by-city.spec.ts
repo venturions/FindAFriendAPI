@@ -77,4 +77,53 @@ describe('List Pets Service', () => {
       listPetsByCityService.execute({ city: '' }),
     ).rejects.toBeInstanceOf(CityNotProvidedError)
   })
+
+  it('should filter pets by age, size, energy level, and independence level', async () => {
+    await inMemoryPetRepository.create({
+      name: 'Buddy',
+      age: 'Filhote',
+      size: 'Pequeno',
+      energyLevel: 'Alta',
+      independenceLevel: 'Média',
+      environment: 'Ambiente amplo',
+      description: 'Um cachorro amigável e cheio de energia.',
+      photos: ['https://example.com/photo1.jpg'],
+      adoptionRequirements: ['Deve ter espaço amplo'],
+      city: 'São Paulo',
+      orgId: 'org_123',
+    })
+
+    await inMemoryPetRepository.create({
+      name: 'Max',
+      age: 'Adulto',
+      size: 'Médio',
+      energyLevel: 'Média',
+      independenceLevel: 'Alta',
+      environment: 'Ambiente pequeno',
+      description: 'Um cachorro calmo e amigável.',
+      photos: ['https://example.com/photo2.jpg'],
+      adoptionRequirements: ['Deve ter tempo para passeios'],
+      city: 'São Paulo',
+      orgId: 'org_456',
+    })
+
+    const pets = await listPetsByCityService.execute({
+      city: 'São Paulo',
+      age: 'Filhote',
+      size: 'Pequeno',
+      energyLevel: 'Alta',
+      independenceLevel: 'Média',
+    })
+
+    expect(pets).toHaveLength(1)
+    expect(pets[0]).toEqual(
+      expect.objectContaining({
+        name: 'Buddy',
+        age: 'Filhote',
+        size: 'Pequeno',
+        energyLevel: 'Alta',
+        independenceLevel: 'Média',
+      }),
+    )
+  })
 })
