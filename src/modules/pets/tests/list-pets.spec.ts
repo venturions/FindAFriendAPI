@@ -1,8 +1,9 @@
 import { describe, it, expect, beforeEach } from 'vitest'
 import { InMemoryPetRepository } from '../repositories/inMemoryPetRepository'
 import { ListPetsByCityService } from '../services/ListPetsByCityService'
+import { CityNotProvidedError } from '../errors/CityNotProvidedErrors'
 
-describe('List Pets By City Service', () => {
+describe('List Pets Service', () => {
   let inMemoryPetRepository: InMemoryPetRepository
   let listPetsByCityService: ListPetsByCityService
 
@@ -69,5 +70,11 @@ describe('List Pets By City Service', () => {
     const pets = await listPetsByCityService.execute({ city: 'Curitiba' })
 
     expect(pets).toHaveLength(0)
+  })
+
+  it('should throw an error if no city is provided', async () => {
+    await expect(
+      listPetsByCityService.execute({ city: '' }),
+    ).rejects.toBeInstanceOf(CityNotProvidedError)
   })
 })

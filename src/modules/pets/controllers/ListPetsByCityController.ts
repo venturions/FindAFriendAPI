@@ -1,6 +1,7 @@
 import { FastifyReply, FastifyRequest } from 'fastify'
 import { z } from 'zod'
 import { makeListPetsByCityService } from '../factories/makeListPetsByCityService'
+import { CityNotProvidedError } from '../errors/CityNotProvidedErrors'
 
 export async function listPetsByCity(
   request: FastifyRequest,
@@ -19,6 +20,10 @@ export async function listPetsByCity(
 
     return reply.status(200).send(pets)
   } catch (error) {
+    if (error instanceof z.ZodError) {
+      throw new CityNotProvidedError()
+    }
+
     return reply.status(400).send({ message: 'Invalid request' })
   }
 }

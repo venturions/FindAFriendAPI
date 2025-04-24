@@ -1,3 +1,4 @@
+import { CityNotProvidedError } from '@/modules/pets/errors/CityNotProvidedErrors'
 import { FastifyError, FastifyReply, FastifyRequest } from 'fastify'
 import { ZodError } from 'zod'
 
@@ -11,6 +12,12 @@ export function errorHandler(
     return reply.status(400).send({
       message: 'Validation error',
       issues: error.errors,
+    })
+  }
+
+  if (error instanceof CityNotProvidedError) {
+    return reply.status(400).send({
+      message: error.message,
     })
   }
 
