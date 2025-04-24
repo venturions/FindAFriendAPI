@@ -102,10 +102,12 @@ src/
     └── e2e/                   # Testes end-to-end
 
 ---
+```
 
 ## 🔧 Configuração do Ambiente
 
 Clone o repositório:
+
 ```bash
 git clone https://github.com/seu-usuario/FindAFriendAPI.git
 cd FindAFriendAPI
