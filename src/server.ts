@@ -1,12 +1,5 @@
 import { app } from './app'
 import { env } from './env'
-import { authenticateRoutes } from './routes/authenticate.routes'
-import { orgRoutes } from './routes/orgs.routes'
-import { petRoutes } from './routes/pets.routes'
-
-app.register(orgRoutes)
-app.register(authenticateRoutes)
-app.register(petRoutes)
 
 app
   .listen({
