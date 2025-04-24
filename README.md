@@ -100,8 +100,6 @@ src/
 │   └── create-and-authenticate.ts # Utilitário para criar e autenticar organizações
 └── tests/
     └── e2e/                   # Testes end-to-end
-
----
 ```
 
 ## 🔧 Configuração do Ambiente
