@@ -37,4 +37,10 @@ export class InMemoryPetRepository implements PetRepository {
     const pet = this.pets.find((pet) => pet.id === id) || null
     return pet
   }
+
+  async findByCity(city: string): Promise<Pet[]> {
+    return this.pets.filter(
+      (pet) => pet.city.toLowerCase() === city.toLowerCase(),
+    )
+  }
 }
